@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import com.google.gson.Gson;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,42 +22,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        new HttpRequestTask().execute();
+        new GetMangaSiteTask().execute();
     }
 
-    public void getData() {
-//        try {
-//            // Make request to API
-//            HttpResponse<String> response = Unirest.get("https://doodle-manga-scraper.p.mashape.com/")
-//                    .header("X-Mashape-Key", "nqtUYTVuRImshL0Fl8E1RWnORoSFp1B5Vi7jsnA8CPHWYfPXtl")
-//                    .header("Accept", "text/plain")
-//                    .asString();
-//
-//
-//            // Keep response json
-//            System.out.println(response.getBody());
-//            String resJson = response.getBody();
-//
-//            Gson gson = new Gson();
-//
-//            MangaSite[] sites = gson.fromJson(resJson, MangaSite[].class);
-//
-//            Toast.makeText(getApplicationContext(), sites[0].siteId, Toast.LENGTH_LONG).show();
-//
-//        }
-    }
-
-    private class HttpRequestTask extends AsyncTask<Void, Void, Greeting> {
+    private class GetMangaSiteTask extends AsyncTask<Void, Void, MangaSite[]> {
         @Override
-        protected Greeting doInBackground(Void... params) {
+        protected MangaSite[] doInBackground(Void... params) {
             try {
-                final String url = "http://rest-service.guides.spring.io/greeting";
-//                final String url = "http://jsonplaceholder.typicode.com/posts/1";
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                HttpResponse<String> response = Unirest.get("https://doodle-manga-scraper.p.mashape.com/")
+                        .header("X-Mashape-Key", "nqtUYTVuRImshL0Fl8E1RWnORoSFp1B5Vi7jsnA8CPHWYfPXtl")
+                        .header("Accept", "text/plain")
+                        .asString();
+                String res = response.getBody();
 
-                Greeting greeting = restTemplate.getForObject(url, Greeting.class);
-                return greeting;
+                Gson gson = new Gson();
+                MangaSite[] sites = gson.fromJson(res, MangaSite[].class);
+
+                return sites;
 
             } catch (Exception e) {
                 Log.e("MainActivity", e.getMessage(), e);
@@ -66,12 +48,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Greeting greeting) {
-            TextView greetingIdText = (TextView) findViewById(R.id.textView_id);
-            TextView greetingContentText = (TextView) findViewById(R.id.textView_content);
-            greetingIdText.setText(greeting.getId());
-            greetingContentText.setText(greeting.getContent());
-//            greetingContentText.setText(greeting.getTitle());
+        protected void onPostExecute(MangaSite[] sites) {
+            TextView tvContent = (TextView) findViewById(R.id.textView_content);
+            tvContent.setText(sites[2].siteId);
         }
 
     }

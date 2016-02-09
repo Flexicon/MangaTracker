@@ -12,8 +12,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID is"
-        android:id="@+id/textView"
+        android:text="Content:"
+        android:id="@+id/textView_label"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -21,29 +21,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="[id]"
-        android:id="@+id/textView_id"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_marginLeft="64dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Content is"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="17dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="[Content]"
+        android:text="[content]"
         android:id="@+id/textView_content"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_alignLeft="@+id/textView_id"
-        android:layout_alignStart="@+id/textView_id" />
+        android:layout_below="@+id/textView_label"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp" />
+
 </RelativeLayout>
